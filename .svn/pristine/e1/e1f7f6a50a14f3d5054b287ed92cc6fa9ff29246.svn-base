@@ -1,0 +1,40 @@
+AvgSeg:
+  crop_size: 2048
+  extra: "KEEP" # DROP,KEEP        
+
+CeSeg:
+  start: 512      
+  end: 1536                 
+
+ThreeSeg: None
+
+Cv2Seg:
+  kernel_size: 7  
+  th_min: 45     
+  th_max: 120 
+  blur: 15       
+  pad_size: 100             
+
+JsonSeg:
+  jfs: [
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/master_roi_w1.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/master_roi_w2.json",
+        "dpp/dataset/transforms/ROI/PAD-BEFORE/master_roi_w3.json",
+        "dpp/dataset/transforms/ROI/PAD-BEFORE/master_roi_w4.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_roi_w1.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_roi_w2.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_roi_w3.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_roi_w4.json",
+        ]
+
+JsonMerge:
+  jfs: [
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/master_splice_w1.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/master_splice_w2.json",
+        "dpp/dataset/transforms/ROI/PAD-BEFORE/master_splice_w3.json",
+        "dpp/dataset/transforms/ROI/PAD-BEFORE/master_splice_w4.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_splice_w1.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_splice_w2.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_splice_w3.json",
+        # "dpp/dataset/transforms/ROI/PAD-BEFORE/slave_splice_w4.json",
+        ]

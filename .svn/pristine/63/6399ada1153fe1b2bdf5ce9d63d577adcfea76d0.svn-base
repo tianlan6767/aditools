@@ -1,0 +1,625 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ml import *"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 划分数据集"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# excel表格路径\n",
+    "excel_file = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\station_cls_ext - 副本\\1_2_ext & 3_2_ext - 副本\\data.xlsx\"\n",
+    "# 标签列\n",
+    "target = 'label'\n",
+    "not_y, y, not_y_cols, index = get_x_y(excel_file, drop_cols=[], target=target)\n",
+    "dst = os.path.join(os.path.split(excel_file)[0], os.path.basename(excel_file).split('.')[0])\n",
+    "split_tt(not_y, y, not_y_cols+[target], dst)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "数据总体情况： {0: 14, 1: 30, 2: 10, 3: 7, 4: 19}\n",
+      "训练集情况： {0.0: 10, 1.0: 21, 2.0: 8, 3.0: 5, 4.0: 15}\n",
+      "测试集情况： {0.0: 4, 1.0: 9, 2.0: 2, 3.0: 2, 4.0: 4}\n"
+     ]
+    }
+   ],
+   "source": [
+    "# excel表格路径\n",
+    "excel_file = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\station_cls_ext - 副本\\1_2_ext & 3_2_ext - 副本\\data.xlsx\"\n",
+    "# 标签列\n",
+    "target = 'label'\n",
+    "not_y, y, not_y_cols, index = get_x_y(excel_file, drop_cols=[], target=target)\n",
+    "dst = os.path.join(os.path.split(excel_file)[0], os.path.basename(excel_file).split('.')[0])\n",
+    "split_tt_plus(not_y, y, not_y_cols+[target], dst)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "数据总体情况： {0: 6, 1: 65, 2: 51, 3: 16, 4: 54, 5: 31, 6: 14, 7: 3}\n",
+      "0类别的数量为6，未放入训练集\n",
+      "7类别的数量为3，未放入训练集\n",
+      "训练集情况： (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)\n",
+      "测试集情况： (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)\n",
+      "数据总体情况： {0: 10, 1: 34, 2: 10, 3: 7, 4: 19}\n",
+      "训练集情况： (0.0, 1.0, 2.0, 3.0, 4.0)\n",
+      "测试集情况： (0.0, 1.0, 2.0, 3.0, 4.0)\n",
+      "数据总体情况： {0: 13, 1: 425, 10: 13, 11: 29, 12: 3, 13: 9, 14: 5, 2: 17, 3: 72, 4: 35, 5: 86, 6: 45, 7: 66, 8: 12, 9: 32}\n",
+      "12类别的数量为3，未放入训练集\n",
+      "14类别的数量为5，未放入训练集\n",
+      "训练集情况： (0.0, 1.0, 10.0, 11.0, 13.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)\n",
+      "测试集情况： (0.0, 1.0, 10.0, 11.0, 12.0, 13.0, 14.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)\n",
+      "数据总体情况： {1: 30, 10: 4, 11: 2, 2: 15, 3: 53, 4: 20, 5: 28, 6: 120, 7: 21, 8: 6, 9: 29}\n",
+      "10类别的数量为4，未放入训练集\n",
+      "11类别的数量为2，未放入训练集\n",
+      "8类别的数量为6，未放入训练集\n",
+      "训练集情况： (1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 9.0)\n",
+      "测试集情况： (1.0, 10.0, 11.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)\n"
+     ]
+    }
+   ],
+   "source": [
+    "src = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test2\\station_cls_ext\"\n",
+    "excel_files_g = glob(os.path.join(src, \"*\", \"data.xlsx\"))\n",
+    "for e in excel_files_g:\n",
+    "    # 标签列\n",
+    "    target = 'label'\n",
+    "    not_y, y, not_y_cols, index = get_x_y(e, drop_cols=[], target=target)\n",
+    "    dst = os.path.dirname(e)\n",
+    "    split_tt_plus(not_y, y, not_y_cols+[target], dst)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 划分数据集-交叉验证"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 平衡训练集"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "excel_file = r\"\\\\Ds418\\NAS3\\A-ZK\\raw_data\\1222-1226\\features\\432_438_439-7\\train_data-7_10.xlsx\"\n",
+    "drop_cols = ['defect_name_0.4', 'defect_name', 'preLb']\n",
+    "target = 'qcJdg'\n",
+    "index_col = 'defect_name_0.4'\n",
+    "X, y, X_cols, index = get_x_y(excel_file, drop_cols, target, index_col)\n",
+    "dst = os.path.join(os.path.split(excel_file)[0])\n",
+    "xx_resampled, yy_resampled = count_balancing(X, y, X_cols+[target], dst)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 标准化训练集"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "excel_file = r\"\\\\Ds418\\NAS3\\A-ZK\\raw_data\\1222-1226\\features\\432_438_439-7\\train_data-7_10.xlsx\"\n",
+    "drop_cols = ['defect_name_0.4', 'defect_name', 'preLb']\n",
+    "target = 'qcJdg'\n",
+    "index_col = 'defect_name_0.4'\n",
+    "X, y, X_cols, index = get_x_y(excel_file, drop_cols, target, index_col)\n",
+    "dst = os.path.join(os.path.split(excel_file)[0])\n",
+    "mmc, xx_mmc = train_data_std(X, dst)\n",
+    "\n",
+    "data = pd.DataFrame(np.hstack([xx_mmc, y.reshape(-1,1)]), index=index, columns=X_cols+[target])\n",
+    "save_path = excel_file[:-5] + '_std.xlsx'\n",
+    "if os.path.exists(save_path):\n",
+    "    warnings.warn(f'!!!已存在{save_path}，已被覆盖', Warning)\n",
+    "data.to_excel(save_path, index=False)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "##### 测试集同训练集"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "excel_file = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\val\\val_data2 - 副本\\2_1-result\\阶段2\\features_with_labels-step1_pre=-1_wanted.xlsx\"\n",
+    "drop_cols = ['defect_name_0.4', 'defect_name', 'preLb']\n",
+    "target = 'qcJdg'\n",
+    "index_col = 'defect_name_0.4'\n",
+    "X, y, X_cols, index = get_x_y(excel_file, drop_cols, target, index_col)\n",
+    "\n",
+    "# mmc和mmc_file只要填一个\n",
+    "# mmc = mmc \n",
+    "mmc_file = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\station_cls_ext - 副本\\2_1_ext - 副本\\data\\阶段2\\mmc.pkl\"\n",
+    "# xx_mmc = test_data_std(X, mmc=mmc)\n",
+    "xx_mmc = test_data_std(X, mmc_file=mmc_file)\n",
+    "\n",
+    "data = pd.DataFrame(np.hstack([xx_mmc, y.reshape(-1,1)]), index=index, columns=X_cols+[target])\n",
+    "save_path = excel_file[:-5] + '_std.xlsx'\n",
+    "if os.path.exists(save_path):\n",
+    "    warnings.warn(f'!!!已存在{save_path}，已被覆盖', Warning)\n",
+    "data.to_excel(save_path, index=False)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 筛选特征"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from feature_tool.data_prepare import feature_selection\n",
+    "\n",
+    "\n",
+    "excel_file = r\"D:\\pad_before\\ml\\features_with_labels.xlsx\"\n",
+    "drop_cols = ['Unnamed: 0', 'label']\n",
+    "target = 'label'\n",
+    "index_col = 'Unnamed: 0'\n",
+    "# drop_cols = ['Unnamed: 0', \"stage1\", \"stage2\", \"stage1_id\", \"stage2_id\"]\n",
+    "# target = \"stage2_id\"\n",
+    "# index_col = 'Unnamed: 0'\n",
+    "\n",
+    "X, y, X_cols, index = get_x_y(excel_file, drop_cols, target, index_col)\n",
+    "# print(X.shape, y.shape)\n",
+    "data = pd.DataFrame(np.hstack([X, y.reshape(-1,1)]), index=index, columns=X_cols+[target])\n",
+    "wanted_features = feature_selection(data, target, method='DTC', max_features=8)\n",
+    "\n",
+    "data_wanted = data[wanted_features + [target]]\n",
+    "save_path = os.path.join(excel_file[:-5] + '_wanted.xlsx')\n",
+    "if os.path.exists(save_path):\n",
+    "    warnings.warn(f'!!!已存在{save_path}', Warning)\n",
+    "    cur_time = time.strftime('%m%d%H%M', time.localtime(time.time()))\n",
+    "    save_path = save_path[:-5] + '_{}.xlsx'.format(cur_time)\n",
+    "data_wanted.to_excel(save_path)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "##### 测试集同训练集"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 测试集数据\n",
+    "excel_file_test = r\"D:\\pad_before\\ml\\features.xlsx\"\n",
+    "# index_col_test = 'jpg'\n",
+    "index_col_test = 'Unnamed: 0'\n",
+    "data_test = pd.read_excel(excel_file_test, index_col=index_col_test)\n",
+    "\n",
+    "# 训练集数据（已筛选好）\n",
+    "excel_file_train = r\"D:\\pad_before\\ml\\features_with_labels_wanted.xlsx\"\n",
+    "index_col_train = 'Unnamed: 0'\n",
+    "data_train = pd.read_excel(excel_file_train, index_col=index_col_train)\n",
+    "\n",
+    "columns_train = list(data_train.columns)\n",
+    "\n",
+    "columns_train.remove('label')\n",
+    "\n",
+    "data_test_wanted = data_test[columns_train]\n",
+    "save_path = os.path.join(excel_file_test[:-5] + '_wanted.xlsx')\n",
+    "if os.path.exists(save_path):\n",
+    "    warnings.warn(f'!!!已存在{save_path}', Warning)\n",
+    "    cur_time = time.strftime('%m%d%H%M', time.localtime(time.time()))\n",
+    "    save_path = save_path[:-5] + '_{}.xlsx'.format(cur_time)\n",
+    "data_test_wanted.to_excel(save_path)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 训练模型"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "excel_file = r\"D:\\pad_before\\ml\\features_with_labels_wanted.xlsx\"\n",
+    "drop_cols = ['Unnamed: 0', 'label']\n",
+    "target = 'label'\n",
+    "index_col = 'Unnamed: 0'\n",
+    "# drop_cols = ['Unnamed: 0', \"stage2_id\"]\n",
+    "# target = \"stage2_id\"\n",
+    "# index_col = 'Unnamed: 0'\n",
+    "# drop_cols = ['jpg', 'label']\n",
+    "# target = 'label'\n",
+    "# index_col = 'jpg'\n",
+    "X, y, X_cols, index = get_x_y(excel_file, drop_cols, target, index_col)\n",
+    "dst = os.path.split(excel_file)[0]\n",
+    "\n",
+    "clf = train_classifying(X, y, dst, m='RandomForest')"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 测试模型"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "d:\\code\\AdiTool\\dpp\\dataset\\classifier\\ml.py:333: Warning: !!!已存在D:\\pad_before\\ml\\classifying_result.xlsx\n",
+      "  warnings.warn(f'!!!已存在{save_path}', Warning)\n"
+     ]
+    }
+   ],
+   "source": [
+    "excel_file = r\"D:\\pad_before\\ml\\features_wanted.xlsx\"\n",
+    "# # 有标签\n",
+    "# drop_cols = ['Unnamed: 0', 'label']\n",
+    "# target = 'label'\n",
+    "# index_col = 'Unnamed: 0'\n",
+    "# X, y, X_cols, index = get_x_y(excel_file, drop_cols, target, index_col)\n",
+    "\n",
+    "# # 模型和模型路径只要填一个\n",
+    "# # clf = clf \n",
+    "# clf_file = r\"D:\\pad_before\\ml\\clf.pkl\"\n",
+    "# dst = os.path.split(excel_file)[0]\n",
+    "# # result = test_classifying(dst, index, X, y, clf=clf)\n",
+    "# result = test_classifying(dst, index, X, y, clf_file=clf_file)\n",
+    "\n",
+    "# 无标签\n",
+    "drop_cols = ['Unnamed: 0']\n",
+    "target = ''\n",
+    "index_col = 'Unnamed: 0'\n",
+    "X, X_cols, index = get_x_y(excel_file, drop_cols, target, index_col)\n",
+    "clf_file = r\"D:\\pad_before\\ml\\clf.pkl\"\n",
+    "dst = os.path.split(excel_file)[0]\n",
+    "# result = test_classifying(dst, index, X, clf=clf)\n",
+    "result = test_classifying(dst, index, X, clf_file=clf_file)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 根据结果复制数据"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 80/80 [00:03<00:00, 20.29it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "img_src = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\test2\\station_cls_ext\\1_1_ext & 3_1_ext - 副本\\data\"\n",
+    "dst = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\test2\\station_cls_ext\\1_1_ext & 3_1_ext - 副本\\test\"\n",
+    "\n",
+    "# result = result\n",
+    "# copy_img_cover_y_pre(img_src, dst, result=result, real_c=True)\n",
+    "result_file = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\test2\\station_cls_ext\\1_1_ext & 3_1_ext - 副本\\classifying_result.xlsx\"\n",
+    "copy_img_cover_y_pre(img_src, dst, result_file=result_file, real_c=True)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 其他"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "##### 根据txt复制图像"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import shutil, glob\n",
+    "txt_file = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\station_cls_ext - 副本\\2_1_ext - 副本\\8\\测试集分错的\\8.txt\"\n",
+    "src = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\station_cls_ext - 副本\\2_1_ext - 副本\\8\"\n",
+    "dst = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\station_cls_ext - 副本\\2_1_ext - 副本\\8\\测试集分错的\"\n",
+    "with open(txt_file) as f:\n",
+    "    tmp = f.readlines()\n",
+    "    for l in tmp:\n",
+    "        l_ = l.replace('\\n', '')\n",
+    "        print(l_)\n",
+    "        img_path = glob.glob(os.path.join(src, l_))[0]\n",
+    "        print(img_path)\n",
+    "        shutil.copy(img_path, os.path.join(dst, l_))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 重命名二级目录\n",
+    "import os\n",
+    "\n",
+    "root = r\"D:\\OQC\\light-lx\\2_2_cls - 副本\"\n",
+    "\n",
+    "for dir in os.listdir(root):\n",
+    "    one_dir = os.path.join(root, dir)\n",
+    "    for two_dir in os.listdir(one_dir):\n",
+    "        dir_path = os.path.join(one_dir, two_dir)\n",
+    "        os.rename(dir_path, os.path.join(one_dir, dir+\"-\"+two_dir))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 83,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "## 一阶段筛选特征\n",
+    "import re\n",
+    "dst = r\"D:\\OQC\\light-lx\\2_2\\一阶段\\全都作为训练集\"\n",
+    "station_info = [\"2_2\", ]\n",
+    "# 测试集数据\n",
+    "excel_file_test = r\"\\\\Ds418\\nas3\\A-ZK-OQC\\test-data\\0407\\tmp\\jf\\batch_672_jpg_features.xlsx\"\n",
+    "index_col_test = 'Unnamed: 0'\n",
+    "data_test = pd.read_excel(excel_file_test, index_col=index_col_test)\n",
+    "data_test[\"station_info\"] = [re.findall(\"^\\d+_\\d+_(\\d_\\d)\", i)[0] for i in data_test.index.tolist()]\n",
+    "data_test = data_test[data_test[\"station_info\"].isin(station_info)]\n",
+    "\n",
+    "# 训练集数据（已筛选好）\n",
+    "excel_file_train = r\"D:\\OQC\\light-lx\\2_2\\一阶段\\全都作为训练集\\features_wanted.xlsx\"\n",
+    "index_col_train = 'Unnamed: 0'\n",
+    "data_train = pd.read_excel(excel_file_train, index_col=index_col_train)\n",
+    "\n",
+    "columns_train = list(data_train.columns)\n",
+    "columns_train.remove(0)\n",
+    "\n",
+    "data_test_wanted = data_test[columns_train]\n",
+    "save_path = os.path.join(dst, os.path.basename(excel_file_test)[:-5] + '_wanted.xlsx')\n",
+    "data_test_wanted.to_excel(save_path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 85,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "c:\\Users\\1\\Y\\script\\ml_tool\\ml.py:333: Warning: !!!已存在D:\\OQC\\light-lx\\2_2\\一阶段\\全都作为训练集\\classifying_result.xlsx\n",
+      "  warnings.warn(f'!!!已存在{save_path}', Warning)\n"
+     ]
+    }
+   ],
+   "source": [
+    "## 一阶段测试模型\n",
+    "excel_file = r\"D:\\OQC\\light-lx\\2_2\\一阶段\\全都作为训练集\\batch_672_jpg_features_wanted.xlsx\"\n",
+    "drop_cols = ['Unnamed: 0']\n",
+    "index_col = 'Unnamed: 0'\n",
+    "X, X_cols, index = get_x_y(excel_file, drop_cols, index_col=index_col)\n",
+    "\n",
+    "# 模型和模型路径只要填一个\n",
+    "clf_file = r\"D:\\OQC\\light-lx\\2_2\\一阶段\\全都作为训练集\\clf.pkl\"\n",
+    "dst = os.path.split(excel_file)[0]\n",
+    "result = test_classifying(dst, index, X, clf_file=clf_file)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0\n",
+      "1\n",
+      "无D:\\OQC\\light-lx\\2_2\\二阶段\\全都作为训练集\\条状\\features_wanted.xlsx\n",
+      "2\n",
+      "3\n",
+      "4\n",
+      "5\n"
+     ]
+    }
+   ],
+   "source": [
+    "## 二阶段筛选特征\n",
+    "label_map = {0: \"块状\", 1: \"条状\", 2: \"白点\", 3: \"白线\", 4: \"黑点\", 5: \"黑线\"}\n",
+    "classifying_result_excel = r\"D:\\OQC\\light-lx\\2_2\\一阶段\\全都作为训练集\\batch_675_jpg_classifying_result.xlsx\"\n",
+    "classifying_result = pd.read_excel(classifying_result_excel, index_col='Unnamed: 0')\n",
+    "\n",
+    "dst = r\"D:\\OQC\\light-lx\\2_2\\二阶段\\全都作为训练集\"\n",
+    "# 测试集数据\n",
+    "excel_file_test = r\"\\\\Ds418\\nas3\\A-ZK-OQC\\test-data\\0407\\tmp\\jf\\batch_675_jpg_features.xlsx\"\n",
+    "index_col_test = 'Unnamed: 0'\n",
+    "data_test = pd.read_excel(excel_file_test, index_col=index_col_test)\n",
+    "# print(data_test.index)\n",
+    "\n",
+    "for i in range(6):\n",
+    "    print(i)\n",
+    "    # print(classifying_result[\"pre\"] == i)\n",
+    "    sub_data_test = data_test.loc[classifying_result.index, :]\n",
+    "    sub_data_test = sub_data_test[classifying_result[\"pre\"] == i]\n",
+    "\n",
+    "    # 训练集数据（已筛选好）\n",
+    "    excel_file_train = os.path.join(dst, label_map[i], \"features_wanted.xlsx\")\n",
+    "    index_col_train = 'Unnamed: 0'\n",
+    "    try:\n",
+    "        data_train = pd.read_excel(excel_file_train, index_col=index_col_train)\n",
+    "    except:\n",
+    "        print(\"无\"+excel_file_train)\n",
+    "        continue\n",
+    "\n",
+    "    columns_train = list(data_train.columns)\n",
+    "    columns_train.remove(\"stage2_id\")\n",
+    "\n",
+    "    data_test_wanted = sub_data_test[columns_train]\n",
+    "    save_path = os.path.join(dst, label_map[i], os.path.basename(excel_file_test)[:-5] + '_wanted.xlsx')\n",
+    "    data_test_wanted.to_excel(save_path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 89,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0\n",
+      "1\n",
+      "无D:\\OQC\\light-lx\\2_2\\二阶段\\全都作为训练集\\条状\\batch_675_jpg_features_wanted.xlsx\n",
+      "2\n",
+      "3\n",
+      "4\n",
+      "5\n"
+     ]
+    }
+   ],
+   "source": [
+    "## 二阶段测试模型\n",
+    "src = r\"D:\\OQC\\light-lx\\2_2\\二阶段\\全都作为训练集\"\n",
+    "qianzhui = \"batch_675_jpg\"\n",
+    "\n",
+    "label_map = {0: \"块状\", 1: \"条状\", 2: \"白点\", 3: \"白线\", 4: \"黑点\", 5: \"黑线\"}\n",
+    "for i in range(6):\n",
+    "    print(i)\n",
+    "    excel_file = os.path.join(src, label_map[i], f\"{qianzhui}_features_wanted.xlsx\")\n",
+    "    drop_cols = ['Unnamed: 0']\n",
+    "    index_col = 'Unnamed: 0'\n",
+    "    try:\n",
+    "        X, X_cols, index = get_x_y(excel_file, drop_cols, index_col=index_col)\n",
+    "    except:\n",
+    "        print(\"无\"+excel_file)\n",
+    "        continue\n",
+    "\n",
+    "    # 模型和模型路径只要填一个\n",
+    "    clf_file = os.path.join(src, label_map[i], \"clf.pkl\")\n",
+    "    dst = os.path.split(excel_file)[0]\n",
+    "    result = test_classifying(dst, index, X, clf_file=clf_file)\n",
+    "    os.rename(os.path.join(src, label_map[i], \"classifying_result.xlsx\"), \n",
+    "              os.path.join(src, label_map[i], f\"{qianzhui}_classifying_result.xlsx\"))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.0"
+  },
+  "orig_nbformat": 4,
+  "vscode": {
+   "interpreter": {
+    "hash": "ad2bdc8ecc057115af97d19610ffacc2b4e99fae6737bb82f5d7fb13d2f2c186"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

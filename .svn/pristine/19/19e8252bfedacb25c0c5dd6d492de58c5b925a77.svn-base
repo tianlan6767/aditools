@@ -1,0 +1,262 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import api\n",
+    "from evalmodel import ModelAnalyzer"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 多模型缺陷缺陷统计表"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mark_json = r\"/media/ps/244e88e1-d2e1-477f-9e37-7b9cb43b842a/LB/val/laptopa/1212ng/ng.json\"\n",
+    "images_folder = r\"/media/ps/244e88e1-d2e1-477f-9e37-7b9cb43b842a/LB/val/laptopa/1212ng\"\n",
+    "weights_json_folder = r'/home/ps/LB/train/laptopa/weights_json/1212ng'\n",
+    "MA = ModelAnalyzer.load(images_folder,mark_json, weights_json_folder)\n",
+    "MA.filter_inf_regions(0.5, 1)\n",
+    "good_models = MA.recommend_model(top_k=50, min_iou=0.001, min_chk_rate=0.0)#0.000000001\n",
+    "# 保存模型的性能指标\n",
+    "MA.to_excel()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### 自定义输出结果图\n",
+    "# \"\\\\Ds418\\nas\\深度学习&数据分析\\课题文档\\推理框架\\模型评估接口使用说明.pptx\"\n",
+    "# MA.get_image(good_models, 'miss')    \n",
+    "# MA.get_defect(good_models, 'check') \n",
+    "# MA.get_defect(good_models, 'over') \n",
+    "# MA.get_defect(good_models, 'cmp')      \n",
+    "\n",
+    "#MA.get_score_hist()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 普通JSON转excel"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|████████████████████████████████████████████████████████████████████████████████| 109/109 [00:22<00:00,  4.86it/s]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1;34m [INFO]--> 2023-03-18 10:06:58:success save excel: D:\\PAD\\undo\\缺陷标注表.xlsx \u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "mask_jf = r\"D:\\PAD\\undo\\via_to_json.json\"\n",
+    "img_path = os.path.dirname(mask_jf)\n",
+    "api.json_to_excel_api(img_path, mask_jf)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 推理JSON转excel"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 80/80 [00:15<00:00,  5.00it/s]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1;34m [INFO]--> 2023-01-10 20:03:36:success save excel: D:\\PAD\\0103ng\\缺陷模型得分表.xlsx \u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "mask_jf = r\"D:\\PAD\\0103ng\\ng.json\"\n",
+    "model_jf = r\"D:\\PAD\\0103json\\model_0435999.json\"\n",
+    "img_path = os.path.dirname(mask_jf)\n",
+    "api.model_to_excel_api(img_path,mask_jf,model_jf)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 多模型得分表"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Add Model <model_0435999>: 100%|████████████████████████████████████| 81/81 [00:00<00:00, 94.97it/s]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "加载完成：1/5\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Add Model <model_0439999>: 100%|███████████████████████████████████| 81/81 [00:00<00:00, 135.81it/s]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "加载完成：2/5\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Add Model <model_0441999>: 100%|███████████████████████████████████| 81/81 [00:00<00:00, 124.78it/s]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "加载完成：3/5\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Add Model <model_0451999>: 100%|████████████████████████████████████| 81/81 [00:00<00:00, 94.38it/s]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "加载完成：4/5\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Add Model <model_0453999>: 100%|███████████████████████████████████| 81/81 [00:00<00:00, 101.08it/s]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "加载完成：5/5\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "d:\\dpp\\backend\\evalmodel\\data_info.py:186: UserWarning: There is no feature ctr_score\n",
+      "  warn(f'There is no feature {key}', UserWarning)\n",
+      "d:\\dpp\\backend\\evalmodel\\data_info.py:186: UserWarning: There is no feature cls_score\n",
+      "  warn(f'There is no feature {key}', UserWarning)\n",
+      "100%|██████████| 80/80 [00:09<00:00,  8.63it/s]"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1;34m [INFO]--> 2023-01-10 19:34:09:success save excel: D:\\PAD\\0103ng\\缺陷多模型得分表.xlsx \u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "mask_jf = r\"D:\\PAD\\0103ng\\ng.json\"\n",
+    "weights_path = r\"D:\\PAD\\0103json\"\n",
+    "img_path = os.path.dirname(mask_jf)\n",
+    "api.multi_model_to_excel_api(img_path,mask_jf,weights_path)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.0"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "2fb754d125fc8835b4feb6812995f64fcddf495407b14f2a3d533b8335a57ccb"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

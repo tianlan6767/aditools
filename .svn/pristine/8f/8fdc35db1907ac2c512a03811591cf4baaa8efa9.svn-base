@@ -1,0 +1,251 @@
+{
+ "cells": [
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### import"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from main import *"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 通用"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 获取缺陷小图、提取特征、添加标签"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "PAD_Y_1230_1_NG_PS_76-2_2_5.bmp: 100% 126/126 [00:48<00:00,  2.58it/s]   \n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "==提取并绘制标注区域完成==\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "calculate features: PAD_Y_1230_1_NG_PS_76-2_2_5.bmp: 100% 126/126 [00:46<00:00,  2.71it/s]   \n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "特征矩阵大小 (248, 25)\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "'D:\\\\PAD\\\\noline\\\\images\\\\val\\\\features.xlsx'"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "src = r\"D:\\PAD\\noline\\images\\val\"\n",
+    "jf = r\"D:\\PAD\\noline\\images\\val\\val.json\"\n",
+    "\n",
+    "function_features(src, jf, offset=30, if_add_label=False)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 获取summary"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 16/16 [00:59<00:00,  1.04it/s]\n",
+      "100%|██████████| 30/30 [03:31<00:00,  5.91s/it]\n",
+      "100%|██████████| 29/29 [01:18<00:00,  1.48s/it]\n"
+     ]
+    }
+   ],
+   "source": [
+    "input_dict = {\n",
+    "    \"data\": r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\\val\",\n",
+    "    \"train\": r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\\station_cls_ext\",\n",
+    "    \"test\": r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\\station_cls_ext\",\n",
+    "    }\n",
+    "\n",
+    "for point_name, file_root in input_dict.items():\n",
+    "    function_summary(file_root, point_name)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 获取所有的筛出图像及其特征"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dst = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\"\n",
+    "input_tuple = (\n",
+    "    r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\\val\",\n",
+    "    r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\\station_cls_ext\",\n",
+    ")\n",
+    "get_filter_data(dst, *input_tuple)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 将筛出的数据重新分类"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "excel_file = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\\filter_data.xlsx\"\n",
+    "name_col = \"Unnamed: 0\"\n",
+    "\n",
+    "camera_num_map = {\n",
+    "    \"1_1\": {\"dot\": \"2\", \"line\": \"1\"},\n",
+    "    \"1_2\": {\"dot\": \"1\", \"line\": \"1\"},\n",
+    "    \"2_1\": {\"dot\": \"1\", \"line\": \"5\"},\n",
+    "    \"2_2\": {\"dot\": \"9\", \"line\": \"6\"},\n",
+    "    \"3_1\": {\"dot\": \"2\", \"line\": \"1\"},\n",
+    "    \"3_2\": {\"dot\": \"1\", \"line\": \"1\"}\n",
+    "    }\n",
+    "\n",
+    "re_classify(excel_file, name_col, camera_num_map)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 训练数据和验证数据"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "file_root = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\test3\\station_cls_ext\"  # 根目录\n",
+    "excel_file = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\ann_data\\features.xlsx\"  # 所有缺陷的特征\n",
+    "labels_map = {\"2_1\": {1: [1], 2: list(range(2, 14))},\n",
+    "              \"2_2\": {1: [1, 2, 4, 9], 3: [3, 5, 7], 6: [6]}}  # 分阶段训练测试时，一阶段的标签\n",
+    "\n",
+    "train_val_main(file_root, excel_file, labels_map, picture_format=\"jpg\", test_size=0.3, wanted_features_num=8)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 测试数据"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "src = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\val\\val_data2 - img\"\n",
+    "jf = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\val\\model_0044999.json\"\n",
+    "jf_via = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\val\\val_data2 - img\\data.json\"\n",
+    "dst = r\"\\\\Ds418\\nas\\share\\LX\\tmp\\OQC\\test3\\val\"\n",
+    "infos_stage_jf = r\"\\\\Ds418\\NAS\\share\\LX\\tmp\\OQC\\test3\\station_cls_ext\\infos_stages.json\"\n",
+    "\n",
+    "test_main(src, jf, jf_via, dst, infos_stage_jf)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.0 (default, Jun 28 2018, 08:04:48) [MSC v.1912 64 bit (AMD64)]"
+  },
+  "orig_nbformat": 4,
+  "vscode": {
+   "interpreter": {
+    "hash": "2fb754d125fc8835b4feb6812995f64fcddf495407b14f2a3d533b8335a57ccb"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
